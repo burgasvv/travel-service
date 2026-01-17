@@ -1,0 +1,17 @@
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: travel_service_postgres
+    restart: unless-stopped
+    ports:
+      - "6000:5432"
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: travel_service_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

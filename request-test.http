@@ -1,0 +1,282 @@
+
+
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Identity Requests
+
+
+
+###
+GET /api/v1/identities
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/identities/by-id?identityId=b0ac9507-fa0a-4b3a-bb69-67d47391a0cf
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: _c7mfafJ8LwTnfX2e6ehqVRGTWtEVbVF8RN1_tfXTBzb1Up4z_aARJf7loo-_JOUH4qVm2d1YAl9bYxolHYQzubmdH69sHJB
+
+{
+    "authority": "ADMIN",
+    "username": "zagorulko",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "enabled": true,
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
+}
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic zagor@gmail.com zagor
+X-Csrf-Token: _c7mfafJ8LwTnfX2e6ehqVRGTWtEVbVF8RN1_tfXTBzb1Up4z_aARJf7loo-_JOUH4qVm2d1YAl9bYxolHYQzubmdH69sHJB
+
+{
+    "id": "d32640a6-e3a1-483a-8962-6c95e8c19fe6",
+    "username": "zagor"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=d32640a6-e3a1-483a-8962-6c95e8c19fe6
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic zagor@gmail.com zagor
+X-Csrf-Token: _c7mfafJ8LwTnfX2e6ehqVRGTWtEVbVF8RN1_tfXTBzb1Up4z_aARJf7loo-_JOUH4qVm2d1YAl9bYxolHYQzubmdH69sHJB
+
+
+
+### Country Requests
+
+
+
+###
+GET /api/v1/countries
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/countries/by-id?countryId=316bc38a-8c1a-4a98-a308-da0bf0b26c69
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/countries/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: ybMIMWrwEoit7FDLWlp1rUCMF8Ll3rkd_q578UMieQPFsOKIq4VuAVmVIbqA3mP8bXdByHjuOvvUuIgwn8wZwyEWH2Kn0oCx
+
+{
+    "name": "Japan",
+    "description": "Описание страны Япония"
+}
+
+###
+PUT /api/v1/countries/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: ybMIMWrwEoit7FDLWlp1rUCMF8Ll3rkd_q578UMieQPFsOKIq4VuAVmVIbqA3mP8bXdByHjuOvvUuIgwn8wZwyEWH2Kn0oCx
+
+{
+    "id": "4cb0206d-c973-4608-94be-231b60cf78f4",
+    "name": "Япония"
+}
+
+###
+DELETE /api/v1/countries/delete?countryId=4cb0206d-c973-4608-94be-231b60cf78f4
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: ybMIMWrwEoit7FDLWlp1rUCMF8Ll3rkd_q578UMieQPFsOKIq4VuAVmVIbqA3mP8bXdByHjuOvvUuIgwn8wZwyEWH2Kn0oCx
+
+
+
+### City Requests
+
+
+
+###
+GET /api/v1/cities
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/cities/by-id?cityId=e3d159b6-5ecc-4d09-95c5-19fb4612ceec
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/cities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: rNAPCquJRnQ_zJxwh3hq8g4-pt-HJ1_Q7sxfKUio4drfMdddyOU9bM3vf0ESrf0RtFVewm8Pi73lRWv9jPxsHH2Q0-LmV-Y5
+
+{
+    "name": "Москва",
+    "description": "Описание города Москва",
+    "countryId": "316bc38a-8c1a-4a98-a308-da0bf0b26c69"
+}
+
+###
+POST /api/v1/cities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: rNAPCquJRnQ_zJxwh3hq8g4-pt-HJ1_Q7sxfKUio4drfMdddyOU9bM3vf0ESrf0RtFVewm8Pi73lRWv9jPxsHH2Q0-LmV-Y5
+
+{
+    "name": "Санкт-Петербург",
+    "description": "Описание города Санкт-Петербург",
+    "countryId": "316bc38a-8c1a-4a98-a308-da0bf0b26c69"
+}
+
+###
+PUT /api/v1/cities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: QLQTd72wYCHS7DKp1OyUqOHURyMlZnqkWYsImao9LG460HzyIoJ1R47VUxP_3gGe48Ggzdm2ahoUAEuJOOlqq8gJSg9Ysh7L
+
+{
+    "id": "6cc285d8-4f7c-4850-b2e9-8cdafc3dcd8c",
+    "name": "Москва"
+}
+
+###
+DELETE /api/v1/cities/delete?cityId=6cc285d8-4f7c-4850-b2e9-8cdafc3dcd8c
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: QLQTd72wYCHS7DKp1OyUqOHURyMlZnqkWYsImao9LG460HzyIoJ1R47VUxP_3gGe48Ggzdm2ahoUAEuJOOlqq8gJSg9Ysh7L
+
+
+
+### Sight Requests
+
+
+
+###
+GET /api/v1/sights
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/sights/by-id?sightId=07180a42-47ea-48fa-bf81-0489158306c7
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/sights/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: rNAPCquJRnQ_zJxwh3hq8g4-pt-HJ1_Q7sxfKUio4drfMdddyOU9bM3vf0ESrf0RtFVewm8Pi73lRWv9jPxsHH2Q0-LmV-Y5
+
+{
+    "name": "Красная Площадь",
+    "description": "Описание достопримечательности Красная Площадь",
+    "cityId": "e3d159b6-5ecc-4d09-95c5-19fb4612ceec"
+}
+
+###
+POST /api/v1/sights/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: rNAPCquJRnQ_zJxwh3hq8g4-pt-HJ1_Q7sxfKUio4drfMdddyOU9bM3vf0ESrf0RtFVewm8Pi73lRWv9jPxsHH2Q0-LmV-Y5
+
+{
+    "name": "Кремль",
+    "description": "Описание достопримечательности Кремль",
+    "cityId": "e3d159b6-5ecc-4d09-95c5-19fb4612ceec"
+}
+
+###
+POST /api/v1/sights/add-excursion?sightId=07180a42-47ea-48fa-bf81-0489158306c7&excursionId=416d4495-2e52-4a97-b039-0b8779729e6a
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 2aOKmDf-194qa-YmP1OjvyXRBvJnBEW0vXn7vDFV5tZCSh6a6pe__Q-Y5LsHUtMQDH6X3hHmK5AEPSeZjkudhQVj0bVwcy_4
+
+###
+DELETE /api/v1/sights/remove-excursion?sightId=07180a42-47ea-48fa-bf81-0489158306c7&excursionId=416d4495-2e52-4a97-b039-0b8779729e6a
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: 2aOKmDf-194qa-YmP1OjvyXRBvJnBEW0vXn7vDFV5tZCSh6a6pe__Q-Y5LsHUtMQDH6X3hHmK5AEPSeZjkudhQVj0bVwcy_4
+
+
+### Excursion Requests
+
+
+
+###
+GET /api/v1/excursions
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/excursions/by-id?excursionId=416d4495-2e52-4a97-b039-0b8779729e6a
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/excursions/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: Bu6HMykLelDZs5wdWW4TMMbGkOj9ss6fMhkqDq8xdBwNihHKNdqyVhFtSTX0iqkrakMnUfLxvYqei6yyAStMN5sHQ38_syCo
+
+{
+    "name": "Экскурсия Павлова",
+    "description": "Описание экскурсии Павлова",
+    "price": 5600.50
+}
+
+###
+POST /api/v1/excursions/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: Bu6HMykLelDZs5wdWW4TMMbGkOj9ss6fMhkqDq8xdBwNihHKNdqyVhFtSTX0iqkrakMnUfLxvYqei6yyAStMN5sHQ38_syCo
+
+{
+    "name": "Пехтелевка",
+    "description": "Описание экскурсии Пехтелевка",
+    "price": 8200.50
+}
