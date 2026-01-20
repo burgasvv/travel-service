@@ -1,6 +1,5 @@
 package org.burgas.travelservice.router
 
-import org.burgas.travelservice.dto.exception.ExceptionResponse
 import org.burgas.travelservice.dto.identity.IdentityRequest
 import org.burgas.travelservice.service.IdentityService
 import org.springframework.context.annotation.Bean
