@@ -4,6 +4,7 @@ import org.burgas.travelservice.dto.identity.IdentityFullResponse
 import org.burgas.travelservice.dto.identity.IdentityRequest
 import org.burgas.travelservice.dto.identity.IdentityShortResponse
 import org.burgas.travelservice.entity.identity.Identity
+import org.burgas.travelservice.kafka.KafkaProducer
 import org.burgas.travelservice.mapper.IdentityMapper
 import org.springframework.scheduling.annotation.Async
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -20,10 +21,12 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
 
     private final val identityMapper: IdentityMapper
     private final val passwordEncoder: PasswordEncoder
+    private final val kafkaProducer: KafkaProducer
 
-    constructor(identityMapper: IdentityMapper, passwordEncoder: PasswordEncoder) {
+    constructor(identityMapper: IdentityMapper, passwordEncoder: PasswordEncoder, kafkaProducer: KafkaProducer) {
         this.identityMapper = identityMapper
         this.passwordEncoder = passwordEncoder
+        this.kafkaProducer = kafkaProducer
     }
 
     @Async(value = "taskExecutor")
@@ -37,7 +40,9 @@ class IdentityService : AsyncCrudService<IdentityRequest, Identity, IdentityShor
     @Async(value = "taskExecutor")
     override fun findById(id: UUID): CompletableFuture<IdentityFullResponse> {
         return CompletableFuture.supplyAsync {
-            this.identityMapper.toFullResponse(this.findEntity(id).get())
+            val identityFullResponse = this.identityMapper.toFullResponse(this.findEntity(id).get())
+            this.kafkaProducer.sendIdentityFullResponse(identityFullResponse)
+            identityFullResponse
         }
     }
 

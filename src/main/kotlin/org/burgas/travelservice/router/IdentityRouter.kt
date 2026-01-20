@@ -70,13 +70,13 @@ class IdentityRouter {
             }
         }
 
-        onError<Exception> { throwable, _ ->
-            val exception = ExceptionResponse(
-                HttpStatus.BAD_REQUEST.name,
-                HttpStatus.BAD_REQUEST.value(),
-                throwable.localizedMessage
-            )
-            ServerResponse.badRequest().body(exception)
-        }
+//        onError<Exception> { throwable, _ ->
+//            val exception = ExceptionResponse(
+//                HttpStatus.BAD_REQUEST.name,
+//                HttpStatus.BAD_REQUEST.value(),
+//                throwable.localizedMessage
+//            )
+//            ServerResponse.badRequest().body(exception)
+//        }
     }
 }
