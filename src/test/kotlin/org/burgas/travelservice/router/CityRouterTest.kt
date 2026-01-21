@@ -1,6 +1,8 @@
 package org.burgas.travelservice.router
 
+import org.burgas.travelservice.dto.city.CityRequest
 import org.burgas.travelservice.dto.country.CountryRequest
+import org.burgas.travelservice.entity.city.City
 import org.burgas.travelservice.entity.country.Country
 import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,18 +20,17 @@ import tools.jackson.module.kotlin.readValue
 @AutoConfigureMockMvc
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation::class)
 @TestClassOrder(value = ClassOrderer.OrderAnnotation::class)
-@Order(value = 1)
-class CountryRouterTest(
+@Order(value = 2)
+class CityRouterTest(
     @Autowired
     private val mockMvc: MockMvc
 ) {
-
     @Test
     @Order(value = 3)
-    fun getCountries() {
+    fun getCities() {
         this.mockMvc
             .perform(
-                MockMvcRequestBuilders.get("/api/v1/countries")
+                MockMvcRequestBuilders.get("/api/v1/cities")
                     .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(MockMvcResultMatchers.status().isOk)
@@ -41,21 +42,21 @@ class CountryRouterTest(
 
     @Test
     @Order(value = 4)
-    fun getCountryById() {
+    fun getCityById() {
         val objectMapper = ObjectMapper()
-        val countriesResult = this.mockMvc
+        val citiesResult = this.mockMvc
             .perform(
-                MockMvcRequestBuilders.get("/api/v1/countries")
+                MockMvcRequestBuilders.get("/api/v1/cities")
                     .accept(MediaType.APPLICATION_JSON)
             )
             .andReturn()
-        val countries = objectMapper.readValue<List<Country>>(countriesResult.response.contentAsString)
-        val country = countries.first { filter -> filter.name == "Япония-страна" }
+        val cities = objectMapper.readValue<List<City>>(citiesResult.response.contentAsString)
+        val city = cities.first { first -> first.name == "Токио-сити" }
         this.mockMvc
             .perform(
-                MockMvcRequestBuilders.get("/api/v1/countries/by-id")
+                MockMvcRequestBuilders.get("/api/v1/cities/by-id")
                     .accept(MediaType.APPLICATION_JSON)
-                    .param("countryId", country.id.toString())
+                    .param("cityId", city.id.toString())
             )
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -66,7 +67,7 @@ class CountryRouterTest(
 
     @Test
     @Order(value = 1)
-    fun createCountry() {
+    fun createCity() {
         val objectMapper = ObjectMapper()
         val countryRequest = CountryRequest(
             name = "Япония",
@@ -82,14 +83,7 @@ class CountryRouterTest(
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                     .with(SecurityMockMvcRequestPostProcessors.httpBasic("burgasvv@gmail.com", "burgasvv"))
             )
-            .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
-    }
-
-    @Test
-    @Order(value = 2)
-    fun updateCountry() {
-        val objectMapper = ObjectMapper()
         val countriesResult = this.mockMvc
             .perform(
                 MockMvcRequestBuilders.get("/api/v1/countries")
@@ -97,19 +91,52 @@ class CountryRouterTest(
             )
             .andReturn()
         val countries = objectMapper.readValue<List<Country>>(countriesResult.response.contentAsString)
-        val country = countries.first { filter -> filter.name == "Япония" }
-        val countryRequest = CountryRequest(
-            id = country.id,
-            name = "Япония-страна",
-            description = "Описание страны Япония-страна"
+        val country = countries.first { first -> first.name == "Япония" }
+
+        val cityRequest = CityRequest(
+            name = "Токио",
+            description = "Описание города Токио",
+            countryId = country.id
         )
-        val countryString = objectMapper.writeValueAsString(countryRequest)
+        val cityString = objectMapper.writeValueAsString(cityRequest)
         this.mockMvc
             .perform(
-                MockMvcRequestBuilders.put("/api/v1/countries/update")
+                MockMvcRequestBuilders.post("/api/v1/cities/create")
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(countryString)
+                    .content(cityString)
+                    .with(SecurityMockMvcRequestPostProcessors.csrf())
+                    .with(SecurityMockMvcRequestPostProcessors.httpBasic("burgasvv@gmail.com", "burgasvv"))
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andReturn()
+    }
+
+    @Test
+    @Order(value = 2)
+    fun updateCity() {
+        val objectMapper = ObjectMapper()
+        val citiesResult = this.mockMvc
+            .perform(
+                MockMvcRequestBuilders.get("/api/v1/cities")
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andReturn()
+        val cities = objectMapper.readValue<List<City>>(citiesResult.response.contentAsString)
+        val city = cities.first { first -> first.name == "Токио" }
+
+        val cityRequest = CityRequest(
+            id = city.id,
+            name = "Токио-сити",
+            description = "Описание города Токио-сити"
+        )
+        val cityString = objectMapper.writeValueAsString(cityRequest)
+        this.mockMvc
+            .perform(
+                MockMvcRequestBuilders.put("/api/v1/cities/update")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(cityString)
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                     .with(SecurityMockMvcRequestPostProcessors.httpBasic("burgasvv@gmail.com", "burgasvv"))
             )
@@ -119,8 +146,27 @@ class CountryRouterTest(
 
     @Test
     @Order(value = 5)
-    fun deleteCountry() {
+    fun deleteCity() {
         val objectMapper = ObjectMapper()
+        val citiesResult = this.mockMvc
+            .perform(
+                MockMvcRequestBuilders.get("/api/v1/cities")
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andReturn()
+        val cities = objectMapper.readValue<List<City>>(citiesResult.response.contentAsString)
+        val city = cities.first { first -> first.name == "Токио-сити" }
+        this.mockMvc
+            .perform(
+                MockMvcRequestBuilders.delete("/api/v1/cities/delete")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .param("cityId", city.id.toString())
+                    .with(SecurityMockMvcRequestPostProcessors.csrf())
+                    .with(SecurityMockMvcRequestPostProcessors.httpBasic("burgasvv@gmail.com", "burgasvv"))
+            )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andReturn()
+
         val countriesResult = this.mockMvc
             .perform(
                 MockMvcRequestBuilders.get("/api/v1/countries")
@@ -128,7 +174,7 @@ class CountryRouterTest(
             )
             .andReturn()
         val countries = objectMapper.readValue<List<Country>>(countriesResult.response.contentAsString)
-        val country = countries.first { filter -> filter.name == "Япония-страна" }
+        val country = countries.first { first -> first.name == "Япония" }
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders.delete("/api/v1/countries/delete")
@@ -137,7 +183,6 @@ class CountryRouterTest(
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                     .with(SecurityMockMvcRequestPostProcessors.httpBasic("burgasvv@gmail.com", "burgasvv"))
             )
-            .andExpect(MockMvcResultMatchers.status().isOk)
             .andReturn()
     }
 }
